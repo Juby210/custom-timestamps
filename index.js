@@ -25,7 +25,7 @@ module.exports = class CustomTimestamps extends Plugin {
 
       // dunno how good this solution is but whatevs
       var timestampFormats = [
-        ["%0M", timestampObject.getMonth() + 1 < 10 ? "0" + timestampObject.getMonth() + 1 : timestampObject.getMonth() + 1],
+        ["%0M", timestampObject.getMonth() + 1 < 10 ? "0" + (timestampObject.getMonth() + 1) : timestampObject.getMonth() + 1],
         ["%0D", timestampObject.getDate() < 10 ? "0" + timestampObject.getDate() : timestampObject.getDate()],
         ["%0h", timestampObject.getHours() < 10 ? "0" + timestampObject.getHours() : timestampObject.getHours()],
         ["%0H", (timestampObject.getHours() % 12 || 12) < 10 ? "0" + (timestampObject.getHours() % 12 || 12) : (timestampObject.getHours() % 12 || 12)],
