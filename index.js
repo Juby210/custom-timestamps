@@ -64,6 +64,6 @@ module.exports = class CustomTimestamps extends Plugin {
   }
   pluginWillUnload() {
     powercord.api.settings.unregisterSettings("custom-timestamps");
-    uninject("message-timestampper")
+    uninject("message-timestamper")
   }
 };
