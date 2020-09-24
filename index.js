@@ -58,6 +58,7 @@ module.exports = class CustomTimestamps extends Plugin {
       (_, res) => {
         var timestampParsed = this.parseTimestamp(timestampSchematic, res.props.children[1].props.children[2].props.timestamp._d)
         res.props.children[1].props.children[2] = React.createElement("span", {style: {color: this.settings.get("timestampColor", "var(--text-muted)"), fontSize:"0.75em"}}, timestampParsed)
+        res.props.children[1].props.children[2].__customtimestamps = "Shawty had them Apple Bottom Jeans (jeans) Boots with the fur (with the fur) The whole club was lookin' at her She hit the floor (she hit the floor) Next thing you know Shawty got low low low low low low low low Them baggy sweat pants and the Reebok's with the straps (the straps) She turned around and gave that big booty a smack (a smack) She hit the floor Next thing you know Shawty got low low low low low low low low "
         return res
       }
     )
