@@ -9,7 +9,8 @@ A Powercord plugin that displays custom timestamps on messages.
 %D = date (e.g 23)
 %H = hour (12 hour format) (e.g 7)
 %h = hour (24 hour format) (e.g 19)
-%m = minute (e.g 6)\n%s = second (e.g 54)
+%m = minute (e.g 6)
+%s = second (e.g 54)
 %a = time ending in 12 hour formats, without the M (e.g p) (p.s You can use %am for the full ending)
 %A = same as last line, but capital (e.g P)
 
