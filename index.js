@@ -57,7 +57,7 @@ module.exports = class CustomTimestamps extends Plugin {
       "default",
       (_, res) => {
         var timestampParsed = this.parseTimestamp(timestampSchematic, res.props.children[1].props.children[2].props.timestamp._d)
-        res.props.children[1].props.children[2] = React.createElement("span", {style: {color: "var(--text-muted", fontSize:"0.75em"}}, timestampParsed)
+        res.props.children[1].props.children[2] = React.createElement("span", {style: {color: this.settings.get("timestampColor", "var(--text-muted)"), fontSize:"0.75em"}}, timestampParsed)
         return res
       }
     )
