@@ -1,0 +1,77 @@
+[
+    {
+        "selector": "Y",
+        "eval": "timestamp.getFullYear()",
+        "desc": "Full year (e.g 2020)"
+    },
+    {
+        "selector": "M",
+        "eval": "timestamp.getMonth() + 1",
+        "desc": "Month (e.g 9)"
+    },
+    {
+        "selector": "0M",
+        "eval": "('0' + (timestamp.getMonth() + 1)).substr(-2)",
+        "desc": "Month (lead 0) (e.g 09)"
+    },
+    {
+        "selector": "D",
+        "eval": "timestamp.getDate()",
+        "desc": "Day (e.g 23)"
+    },
+    {
+        "selector": "0D",
+        "eval": "('0' + timestamp.getDate()).substr(-2)",
+        "desc": "Day (lead 0) (e.g 09)"
+    },
+    {
+        "selector": "H",
+        "eval": "timestamp.getHours() % 12 || 12",
+        "desc": "Hour (12 hour format) (e.g 7)"
+    },
+    {
+        "selector": "0H",
+        "eval": "('0' + (timestamp.getHours() % 12 || 12)).substr(-2)",
+        "desc": "Hour (12 hour format) (lead 0) (e.g 07)"
+    },
+    {
+        "selector": "h",
+        "eval": "timestamp.getHours()",
+        "desc": "Hour (24 hour format) (e.g 13)"
+    },
+    {
+        "selector": "0h",
+        "eval": "('0' + timestamp.getHours()).substr(-2)",
+        "desc": "Hour (24 hour format) (lead 0) (e.g 13)"
+    },
+    {
+        "selector": "m",
+        "eval": "timestamp.getMinutes()",
+        "desc": "Minute (e.g 6)"
+    },
+    {
+        "selector": "0m",
+        "eval": "('0' + timestamp.getMinutes()).substr(-2)",
+        "desc": "Minute (lead 0) (e.g 06)"
+    },
+    {
+        "selector": "s",
+        "eval": "timestamp.getSeconds()",
+        "desc": "Second (e.g 54)"
+    },
+    {
+        "selector": "0s",
+        "eval": "('0' + timestamp.getSeconds()).substr(-2)",
+        "desc": "Second (lead 0) (e.g 54)"
+    },
+    {
+        "selector": "a",
+        "eval": "timestamp.getHours() < 12 ? 'a' : 'p'",
+        "desc": "Time ending in 12 hour formats, without the M (e.g p) (p.s You can use %am for the full ending)"
+    },
+    {
+        "selector": "A",
+        "eval": "timestamp.getHours() < 12 ? 'A' : 'P'",
+        "desc": "same as last line, but capital (e.g P)"
+    }
+]

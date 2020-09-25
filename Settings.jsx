@@ -1,12 +1,17 @@
-const { React } = require("powercord/webpack");
-const {
-  SwitchItem,
-  TextInput,
-  ButtonItem,
-} = require("powercord/components/settings");
-const { Button } = require("powercord/components");
+const { React, getModuleByDisplayName } = require("powercord/webpack");
+const { Category, TextInput } = require("powercord/components/settings");
+const FormItem = getModuleByDisplayName("FormItem", false)
+const FormText = getModuleByDisplayName("FormText", false)
 
-module.exports = class Settings extends React.Component {
+const vars = require("./variables.json")
+
+module.exports = class Settings extends React.PureComponent {
+  constructor(props) {
+    super(props)
+
+    this.state = {}
+  }
+
   render() {
     const { getSetting, toggleSetting, updateSetting } = this.props;
 
@@ -30,6 +35,9 @@ module.exports = class Settings extends React.Component {
         >
           Timestamp String
         </TextInput>
+        <Category name="Variables" opened={this.state.category} onChange={() => this.setState({ category: !this.state.category })}>
+          {vars.map(v => <FormItem style={{ marginBottom: "10px" }} title={`%${v.selector}`}><FormText>{v.desc}</FormText></FormItem>)}
+        </Category>
       </div>
     );
   }
