@@ -18,13 +18,22 @@ module.exports = class Settings extends React.PureComponent {
     return (
       <div>
         <TextInput
-          note="Schematic that all replaced timestamps will follow."
+          note="Schematic that all message timestamps will follow. (see variables below)"
           defaultValue={getSetting("timestampSchematic", "%Y-%0M-%0D %0H:%0m:%0s %AM")}
           onChange={(val) =>
             updateSetting("timestampSchematic", val)
           }
         >
-          Timestamp String
+          Timestamp Schematic
+        </TextInput>
+        <TextInput
+          note="Schematic that message timestamp bubbles (when you hover over a timestamp) will follow."
+          defaultValue={getSetting("timestampBubbleSchematic", "%W, %N %D, %Y %H:%0M %AM")}
+          onChange={(val) =>
+            updateSetting("timestampBubbleSchematic", val)
+          }
+        >
+          Timestamp Bubble Schematic
         </TextInput>
         <TextInput
           note="Color of the timestamp. Any CSS color is valid."
