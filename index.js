@@ -3,15 +3,16 @@
 --------------------------------
 BY VIEWING THIS CODE, YOU ARE AGREEING TO THE "MY CODE MAY NOT BE THE MOST EFFICIENT SOLUTION" TERMS.
 I AM NOT RESPONSIBLE FOR LOSS OF BRAINCELLS FROM THE VIEWING OF THIS FILE.
+OTHER CONTRIBUTIONS TO THIS CODE NOT MADE BY ME, THE AUTHOR, ARE NOT SUBJECT TO THESE TERMS.
 --------------------------------
 */
 const { Plugin } = require("powercord/entities");
 const { findInReactTree } = require("powercord/util");
 const { inject, uninject } = require("powercord/injector");
 const { getModule } = require("powercord/webpack");
+const { parseTimestamp } = require("./timestamp.js");
 
 const Settings = require("./Settings");
-const vars = require("./variables.json");
 
 module.exports = class CustomTimestamps extends Plugin {
   startPlugin() {
@@ -29,7 +30,7 @@ module.exports = class CustomTimestamps extends Plugin {
       timestampModule,
       "MessageTimestamp",
       (args, res) => {
-        const timestampParsed = this.parseTimestamp(args[0].timestamp._d)
+        const timestampParsed = parseTimestamp(args[0].timestamp._d, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0H:%0m:%0s %AM"))
         const { children } = res.props.children.props
         res.props.children.props.children = e => {
           const r = children(e)
@@ -57,11 +58,5 @@ module.exports = class CustomTimestamps extends Plugin {
     powercord.api.settings.unregisterSettings("custom-timestamps");
     uninject("message-timestamper")
     uninject("message-timestamper2")
-  }
-
-  parseTimestamp(timestamp) {
-    let parsed = this.settings.get("timestampSchematic", "%Y-%0M-%0D %0H:%0m:%0s %AM")
-    vars.forEach(v => parsed = parsed.replace(`%${v.selector}`, eval(v.eval)))
-    return parsed
   }
 };

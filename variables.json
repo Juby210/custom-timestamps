@@ -5,6 +5,26 @@
         "desc": "Full year (e.g 2020)"
     },
     {
+        "selector": "y",
+        "eval": "timestamp.getYear() - 100",
+        "desc": "Last 2 digits of year (e.g 20)"
+    },
+    {
+        "selector": "W",
+        "eval": "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()]",
+        "desc": "Day of the week (e.g Wednesday)"
+    },
+    {
+        "selector": "w",
+        "eval": "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()].slice(0,3)",
+        "desc": "Short form of day of the week (e.g Wed)"
+    },
+    {
+        "selector": "E",
+        "eval": "Math.ceil(((timestamp.getTime()-new Date((new Date).getFullYear(),0,1).getTime())/864e5+new Date((new Date).getFullYear(),0,1).getDay()+1)/7)",
+        "desc": "Week of the year (e.g 39)"
+    },
+    {
         "selector": "M",
         "eval": "timestamp.getMonth() + 1",
         "desc": "Month (e.g 9)"
@@ -15,6 +35,16 @@
         "desc": "Month (lead 0) (e.g 09)"
     },
     {
+        "selector": "N",
+        "eval": "['January', 'February',  'March',  'April',  'May',  'June',  'July', 'August',  'September',  'October',  'November',  'December'][timestamp.getMonth()]",
+        "desc": "Month (word form) (e.g September)"
+    },
+    {
+        "selector": "n",
+        "eval": "['January', 'February',  'March',  'April',  'May',  'June',  'July', 'August',  'September',  'October',  'November',  'December'][timestamp.getMonth()].slice(0,3)",
+        "desc": "Month (short word form) (e.g Sep)"
+    },
+    {
         "selector": "D",
         "eval": "timestamp.getDate()",
         "desc": "Day (e.g 23)"
@@ -22,7 +52,7 @@
     {
         "selector": "0D",
         "eval": "('0' + timestamp.getDate()).substr(-2)",
-        "desc": "Day (lead 0) (e.g 09)"
+        "desc": "Day (lead 0) (e.g 23)"
     },
     {
         "selector": "H",
@@ -72,6 +102,6 @@
     {
         "selector": "A",
         "eval": "timestamp.getHours() < 12 ? 'A' : 'P'",
-        "desc": "same as last line, but capital (e.g P)"
+        "desc": "same as %a, but capital (e.g P)"
     }
 ]
