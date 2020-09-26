@@ -30,7 +30,7 @@ module.exports = class CustomTimestamps extends Plugin {
       timestampModule,
       "MessageTimestamp",
       (args, res) => {
-        res.props.children.props.text = parseTimestamp(args[0].timestamp._d, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %H:%0M %AM"))
+        res.props.children.props.text = parseTimestamp(args[0].timestamp._d, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %H:%0m %AM"))
         const timestampParsed = parseTimestamp(args[0].timestamp._d, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0H:%0m:%0s %AM"))
         const { children } = res.props.children.props
         res.props.children.props.children = e => {
