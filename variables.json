@@ -61,23 +61,23 @@
     },
     {
         "selector": "H",
-        "eval": "timestamp.getHours() % 12 || 12",
-        "desc": "Hour (12 hour format) (e.g 7)"
-    },
-    {
-        "selector": "0H",
-        "eval": "('0' + (timestamp.getHours() % 12 || 12)).substr(-2)",
-        "desc": "Hour (12 hour format) (lead 0) (e.g 07)"
-    },
-    {
-        "selector": "h",
         "eval": "timestamp.getHours()",
         "desc": "Hour (24 hour format) (e.g 13)"
     },
     {
-        "selector": "0h",
+        "selector": "0H",
         "eval": "('0' + timestamp.getHours()).substr(-2)",
         "desc": "Hour (24 hour format) (lead 0) (e.g 13)"
+    },
+    {
+        "selector": "h",
+        "eval": "timestamp.getHours() % 12 || 12",
+        "desc": "Hour (12 hour format) (e.g 7)"
+    },
+    {
+        "selector": "0h",
+        "eval": "('0' + (timestamp.getHours() % 12 || 12)).substr(-2)",
+        "desc": "Hour (12 hour format) (lead 0) (e.g 07)"
     },
     {
         "selector": "m",
