@@ -1,5 +1,10 @@
 [
     {
+        "selector":"g",
+        "eval":"Math.floor((now-timestamp)/86400000)==0?\"Today\":(Math.floor((now-timestamp)/86400000)==1?\"Yesterday\":(Math.floor((now-timestamp)/2592000000)<1?(Math.floor((now-timestamp)/86400000)+\" days ago\"):(Math.floor((now-timestamp)/31104000000)<1?Math.floor((now-timestamp)/2592000000)+\" month\"+(Math.floor((now-timestamp)/2592000000)==1?\"\":\"s\")+\" ago\":Math.floor((now-timestamp)/31104000000)+\" year\"+(Math.floor((now-timestamp)/31104000000)==1?\"\":\"s\")+\" ago\")))",
+        "desc":"How long ago the timestamp was (approximately) (e.g Today, or 3 months ago)"
+    },
+    {
         "selector": "Y",
         "eval": "timestamp.getFullYear()",
         "desc": "Full year (e.g 2020)"
