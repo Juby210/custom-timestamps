@@ -10,6 +10,11 @@
         "desc": "Last 2 digits of year (e.g 20)"
     },
     {
+        "selector": "q",
+        "eval": "Math.floor((new Date().getMonth() + 3) / 3)",
+        "desc": "Year quarter (e.g 3)"
+    },
+    {
         "selector": "W",
         "eval": "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()]",
         "desc": "Day of the week (e.g Wednesday)"
@@ -93,6 +98,16 @@
         "selector": "0s",
         "eval": "('0' + timestamp.getSeconds()).substr(-2)",
         "desc": "Second (lead 0) (e.g 54)"
+    },
+    {
+        "selector": "l",
+        "eval": "timestamp.getMilliseconds()",
+        "desc": "Milliseconds (e.g 7)"
+    },
+    {
+        "selector": "0l",
+        "eval": "('00' + timestamp.getMilliseconds()).substr(-3)",
+        "desc": "Milliseconds (lead 0) (e.g 007)"
     },
     {
         "selector": "a",
