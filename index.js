@@ -10,7 +10,7 @@ const { Plugin } = require("powercord/entities");
 const { findInReactTree } = require("powercord/util");
 const { inject, uninject } = require("powercord/injector");
 const { getModule } = require("powercord/webpack");
-const { parseTimestamp } = require("./timestamp.js");
+const { parseTimestamp } = require("./modules/timestamp.js");
 
 const Settings = require("./Settings");
 

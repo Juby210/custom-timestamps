@@ -3,7 +3,7 @@ const { Category, TextInput } = require("powercord/components/settings");
 const FormItem = getModuleByDisplayName("FormItem", false)
 const FormText = getModuleByDisplayName("FormText", false)
 
-const vars = require("./variables.json")
+const vars = require("./modules/variables.json")
 
 module.exports = class Settings extends React.PureComponent {
   constructor(props) {
