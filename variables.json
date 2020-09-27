@@ -31,7 +31,7 @@
     },
     {
         "selector": "E",
-        "eval": "Math.ceil(((timestamp.getTime()-new Date((new Date).getFullYear(),0,1).getTime())/864e5+new Date((new Date).getFullYear(),0,1).getDay()+1)/7)",
+        "eval": "Math.ceil(((new Date(now.getFullYear(), timestamp.getMonth(), timestamp.getDate())-new Date(now.getFullYear(),0,1))/864e5+new Date(now.getFullYear(),0,1).getDay()+1)/7) - 1",
         "desc": "Week of the year (e.g 39)"
     },
     {
