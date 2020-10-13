@@ -9,8 +9,10 @@ OTHER CONTRIBUTIONS TO THIS CODE NOT MADE BY ME, THE AUTHOR, ARE NOT SUBJECT TO 
 const { Plugin } = require("powercord/entities");
 const { findInReactTree } = require("powercord/util");
 const { inject, uninject } = require("powercord/injector");
-const { getModule } = require("powercord/webpack");
-const { parseTimestamp } = require("./modules/timestamp.js");
+const { getModule, getModuleByDisplayName } = require("powercord/webpack");
+const tsmod = require("./modules/timestamp.js");
+var moment;
+var ts = new tsmod.Timestamper();
 
 const Settings = require("./Settings");
 
@@ -21,43 +23,54 @@ module.exports = class CustomTimestamps extends Plugin {
       label: "Custom Timestamps",
       render: Settings,
     });
-    this.initInject()
+    this.initInject();
   }
   async initInject() {
-    const timestampModule = await getModule(["MessageTimestamp"])
+    moment = await getModule(["parseZone"])
+    ts.moment = moment
+    const timestampModule = await getModule(["MessageTimestamp"]);
     inject(
       "message-timestamper",
       timestampModule,
       "MessageTimestamp",
       (args, res) => {
-        res.props.children.props.text = parseTimestamp(args[0].timestamp._d, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"))
-        const timestampParsed = parseTimestamp(args[0].timestamp._d, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"))
-        const { children } = res.props.children.props
+        res.props.children.props.text = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
+        const timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+        const { children } = res.props.children.props;
         res.props.children.props.children = e => {
-          const r = children(e)
-          r.props["aria-label"] = timestampParsed
-          r.props.children = timestampParsed
-          r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") }
-          return r
+          const r = children(e);
+          r.props["aria-label"] = timestampParsed;
+          r.props.children = timestampParsed;
+          r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
+          return r;
         }
-        return res
+        return res;
       }
-    )
-    timestampModule.MessageTimestamp.displayName = "MessageTimestamp"
+    );
+    timestampModule.MessageTimestamp.displayName = "MessageTimestamp";
     inject(
       "message-timestamper2",
       timestampModule,
       "default",
       (_, res) => {
-        const timestamp = findInReactTree(res, e => e && e.type && e.type.displayName == "MessageTimestamp")
-        if (timestamp) timestamp.type = timestampModule.MessageTimestamp
-        return res
+        const timestamp = findInReactTree(res, e => e && e.type && e.type.displayName == "MessageTimestamp");
+        if (timestamp) timestamp.type = timestampModule.MessageTimestamp;
+        return res;
       }
-    )
+    );
+      //TODO: implement bubbles and message timestamps on welcome to server messages and grouped messages
+//     inject("temp", Message, "default", (args, res) => {
+//       if (res.props.children[0].props.children[1].props.compact) {
+//         var ts = res.props.children[0].props.children[1].props.timestamp
+//         res.props.children[0].props.children[1] = wp.React.createElement("span", {class: "latin24CompactTimeStamp-2V7XIQ timestamp-3ZCmNB timestampVisibleOnHover-2bQeI4 alt-1uNpEt"},wp.React.createElement("span", null, "Eggs!"));
+//         res.props.children[0].props.children[1].props.timestamp = ts
+//       }
+//       return res
+//     })
   }
   pluginWillUnload() {
     powercord.api.settings.unregisterSettings("custom-timestamps");
-    uninject("message-timestamper")
-    uninject("message-timestamper2")
-  }
+    uninject("message-timestamper");
+    uninject("message-timestamper2");
+  };
 };

@@ -1,8 +1,13 @@
 [
     {
         "selector":"g",
-        "eval":"Math.floor((now-timestamp)/86400000)==0?\"Today\":(Math.floor((now-timestamp)/86400000)==1?\"Yesterday\":(Math.floor((now-timestamp)/2592000000)<1?(Math.floor((now-timestamp)/86400000)+\" days ago\"):(Math.floor((now-timestamp)/31104000000)<1?Math.floor((now-timestamp)/2592000000)+\" month\"+(Math.floor((now-timestamp)/2592000000)==1?\"\":\"s\")+\" ago\":Math.floor((now-timestamp)/31104000000)+\" year\"+(Math.floor((now-timestamp)/31104000000)==1?\"\":\"s\")+\" ago\")))",
-        "desc":"How long ago the timestamp was (approximately) (e.g Today, or 3 months ago)"
+        "eval":"timestampMoment ? timestampMoment.fromNow(true) : \"[parse error: not a moment.js object]\"",
+        "desc":"How long ago the timestamp was ago (e.g a few seconds, or 2 years, or 4 months)"
+    },
+    {
+        "selector":"G",
+        "eval":"timestampMoment ? this.moment().calendar(timestampMoment, {sameDay: '[Today]',nextDay: '[Tomorrow]',nextWeek: 'dddd',lastDay: '[Yesterday]',lastWeek: '[Last] dddd', sameElse: 'YYYY-MM-DD'}) : \"[parse error: not a moment.js object]\"",
+        "desc":"When the timestamp was, default Discord style (e.g Today, or 05/17/2009, or Last Friday)"
     },
     {
         "selector": "Y",
