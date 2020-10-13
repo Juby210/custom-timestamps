@@ -1,4 +1,4 @@
-const vars = require("./variables.json");
+const vars = require("./variables.js").variables;
 
 exports.Timestamper = class {
     constructor(tssettings = {}) {
@@ -12,7 +12,7 @@ exports.Timestamper = class {
         }
         vars.forEach(v => {
           if (timestampSchematic.includes(`%${v.selector}`)) {
-            timestampSchematic = timestampSchematic.split(`%${v.selector}`).join(eval(v.eval))
+            timestampSchematic = timestampSchematic.split(`%${v.selector}`).join(v.func(timestamp, timestampMoment))
           }
         })
         return timestampSchematic

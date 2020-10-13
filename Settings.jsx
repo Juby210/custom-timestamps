@@ -1,9 +1,9 @@
 const { React, getModuleByDisplayName } = require("powercord/webpack");
 const { Category, TextInput } = require("powercord/components/settings");
-const FormItem = getModuleByDisplayName("FormItem", false)
-const FormText = getModuleByDisplayName("FormText", false)
+const FormItem = getModuleByDisplayName("FormItem", false);
+const FormText = getModuleByDisplayName("FormText", false);
 
-const vars = require("./modules/variables.json")
+const vars = require("./modules/variables.js").variables;
 
 module.exports = class Settings extends React.PureComponent {
   constructor(props) {
