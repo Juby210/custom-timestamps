@@ -23,6 +23,14 @@ const dynamicdates = [
     func: function(timestamp, moment) {return moment().subtract(1, "day").seconds(0).minutes(0).hours(0) < timestamp}
   },
   {
+    name: "This Week",
+    func: function(timestamp, moment) {return moment().day(0).seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
+    name: "Last Week",
+    func: function(timestamp, moment) {return moment().subtract(1, "week").day(0).seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
     name: "This Month",
     func: function(timestamp, moment) {return moment().date(1).seconds(0).minutes(0).hours(0) < timestamp}
   },

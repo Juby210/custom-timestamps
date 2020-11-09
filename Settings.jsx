@@ -3,7 +3,7 @@ const { Category, TextInput, SwitchItem } = require("powercord/components/settin
 const FormItem = getModuleByDisplayName("FormItem", false);
 const FormText = getModuleByDisplayName("FormText", false);
 
-const dynamicdates = ["Today","Yesterday","This Month","Last Month","This Year","Ancient"]
+const dynamicdates = ["Today","Yesterday", "This Week", "Last Week", "This Month","Last Month","This Year","Ancient"]
 
 const vars = require("./modules/variables.js").variables;
 
