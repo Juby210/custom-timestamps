@@ -1,7 +1,9 @@
 const { React, getModuleByDisplayName } = require("powercord/webpack");
-const { Category, TextInput } = require("powercord/components/settings");
+const { Category, TextInput, SwitchItem } = require("powercord/components/settings");
 const FormItem = getModuleByDisplayName("FormItem", false);
 const FormText = getModuleByDisplayName("FormText", false);
+
+const dynamicdates = ["Today","Yesterday","This Month","Last Month","This Year","Ancient"]
 
 const vars = require("./modules/variables.js").variables;
 
@@ -44,6 +46,27 @@ module.exports = class Settings extends React.PureComponent {
         >
           Timestamp String
         </TextInput>
+        <SwitchItem
+          note="Change the timestamp schematic depending on how long ago the timestamp was."
+          value={getSetting("dynamicTimestamps", false)}
+          onChange={p=>{
+            toggleSetting('dynamicTimestamps', false)
+          }}
+        >Dynamic Timestamps</SwitchItem> {/*disabled={!getSetting("dynamicTimestamps", false)}*/}
+        <Category name="Dynamic Timestamps" opened={this.state.opened_dynamic} onChange={() => this.setState({ opened_dynamic: !this.state.opened_dynamic })}>
+          {
+          dynamicdates.map(element => {
+            return <TextInput
+              defaultValue={getSetting("timestampDynamic" + element.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM")}
+              onChange={(val) =>
+                updateSetting("timestampDynamic" + element.split(" ").join(""), val)
+              }
+              disabled={!getSetting("dynamicTimestamps", false)}
+            >
+              {element}
+            </TextInput>
+          })}
+        </Category>
         <Category name="Variables" opened={this.state.category} onChange={() => this.setState({ category: !this.state.category })}>
           {vars.map(v => <FormItem style={{ marginBottom: "10px" }} title=<span style={{textTransform: "none"}}>{`%${v.selector}`}</span>><FormText>{v.desc}</FormText></FormItem>)}
         </Category>
