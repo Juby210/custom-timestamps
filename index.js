@@ -13,6 +13,32 @@ const { getModule, getModuleByDisplayName } = require("powercord/webpack");
 const tsmod = require("./modules/timestamp.js");
 var moment;
 var ts = new tsmod.Timestamper();
+const dynamicdates = [
+  {
+    name: "Today",
+    func: function(timestamp, moment) {return moment().seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
+    name: "Yesterday",
+    func: function(timestamp, moment) {return moment().subtract(1, "day").seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
+    name: "This Month",
+    func: function(timestamp, moment) {return moment().date(1).seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
+    name: "Last Month",
+    func: function(timestamp, moment) {return moment().subtract(1, "month").date(1).seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
+    name: "This Year",
+    func: function(timestamp, moment) {return moment().month(0).date(1).seconds(0).minutes(0).hours(0) < timestamp}
+  },
+  {
+    name: "Ancient",
+    func: function(timestamp, moment) {return moment().month(0).date(1).seconds(0).minutes(0).hours(0) > timestamp}
+  }
+]
 
 const Settings = require("./Settings");
 
@@ -34,8 +60,22 @@ module.exports = class CustomTimestamps extends Plugin {
       timestampModule,
       "MessageTimestamp",
       (args, res) => {
+        var timestampParsed;
         res.props.children.props.text = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
-        const timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+        if (this.settings.get("dynamicTimestamps", false)) {
+          var foundtimestamp = false;
+          dynamicdates.forEach(element => {
+            if (!foundtimestamp) {
+              if (element.func(args[0].timestamp, moment)) {
+                timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+                foundtimestamp = true
+              }
+            }
+          });
+          timestampParsed = timestampParsed ? timestampParsed : "Something's wrong, I can feel it"
+        } else {
+          timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+        }
         const { children } = res.props.children.props;
         res.props.children.props.children = e => {
           const r = children(e);
