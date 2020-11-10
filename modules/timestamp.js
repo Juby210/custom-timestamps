@@ -1,3 +1,9 @@
+/* Copyright (C) 2020 TaiAurori (Gabriel Sylvain) - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ * Basically, you can change and redistribute this code
+ * but this copyright notice must remain unmodified.
+ */
 const vars = require("./variables.js").variables;
 
 exports.Timestamper = class {
