@@ -1,11 +1,9 @@
-
-/*
---------------------------------
-BY VIEWING THIS CODE, YOU ARE AGREEING TO THE "MY CODE MAY NOT BE THE MOST EFFICIENT SOLUTION" TERMS.
-I AM NOT RESPONSIBLE FOR LOSS OF BRAINCELLS FROM THE VIEWING OF THIS FILE.
-OTHER CONTRIBUTIONS TO THIS CODE NOT MADE BY ME, THE AUTHOR, ARE NOT SUBJECT TO THESE TERMS.
---------------------------------
-*/
+/* Copyright (C) 2020 TaiAurori (Gabriel Sylvain) - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ * Basically, you can change and redistribute this code
+ * but this copyright notice must remain unmodified.
+ */
 const { Plugin } = require("powercord/entities");
 const { findInReactTree } = require("powercord/util");
 const { inject, uninject } = require("powercord/injector");
@@ -69,30 +67,35 @@ module.exports = class CustomTimestamps extends Plugin {
       "MessageTimestamp",
       (args, res) => {
         var timestampParsed;
-        res.props.children.props.text = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
-        if (this.settings.get("dynamicTimestamps", false)) {
-          var foundtimestamp = false;
-          dynamicdates.forEach(element => {
-            if (!foundtimestamp) {
-              if (element.func(args[0].timestamp, moment)) {
-                timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
-                foundtimestamp = true
+        try {
+          res.props.children.props.text = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
+          if (this.settings.get("dynamicTimestamps", false)) {
+            var foundtimestamp = false;
+            dynamicdates.forEach(element => {
+              if (!foundtimestamp) {
+                if (element.func(args[0].timestamp, moment)) {
+                  timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+                  foundtimestamp = true
+                }
               }
-            }
-          });
-          timestampParsed = timestampParsed ? timestampParsed : "Something's wrong, I can feel it"
-        } else {
-          timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+            });
+            timestampParsed = timestampParsed ? timestampParsed : "Something's wrong, I can feel it"
+          } else {
+            timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+          }
+          const { children } = res.props.children.props;
+          res.props.children.props.children = e => {
+            const r = children(e);
+            r.props["aria-label"] = timestampParsed;
+            r.props.children = timestampParsed;
+            r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
+            return r;
+          }
+          return res;
+        } catch (err) {
+          this.error("yay, something broke.\n", err)
+          return res
         }
-        const { children } = res.props.children.props;
-        res.props.children.props.children = e => {
-          const r = children(e);
-          r.props["aria-label"] = timestampParsed;
-          r.props.children = timestampParsed;
-          r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
-          return r;
-        }
-        return res;
       }
     );
     timestampModule.MessageTimestamp.displayName = "MessageTimestamp";
@@ -101,9 +104,14 @@ module.exports = class CustomTimestamps extends Plugin {
       timestampModule,
       "default",
       (_, res) => {
-        const timestamp = findInReactTree(res, e => e && e.type && e.type.displayName == "MessageTimestamp");
-        if (timestamp) timestamp.type = timestampModule.MessageTimestamp;
-        return res;
+        try {
+          const timestamp = findInReactTree(res, e => e && e.type && e.type.displayName == "MessageTimestamp");
+          if (timestamp) timestamp.type = timestampModule.MessageTimestamp;
+          return res;
+        } catch (err) {
+          this.error("yay, something broke.\n", err)
+          return res
+        }
       }
     );
       //TODO: implement bubbles and message timestamps on welcome to server messages and grouped messages
