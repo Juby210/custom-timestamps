@@ -26,12 +26,12 @@ exports.variables = [
     },
     {
         "selector": "W",
-        "func": function(timestamp,timestampMoment = null, now = new Date()) {return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()]},
+        "func": function(timestamp,timestampMoment = null, now = new Date()) {return timestampMoment ? timestampMoment.format("dddd") : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()]},
         "desc": "Day of the week (e.g Wednesday)"
     },
     {
         "selector": "w",
-        "func": function(timestamp,timestampMoment = null, now = new Date()) {return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()].slice(0,3)},
+        "func": function(timestamp,timestampMoment = null, now = new Date()) {return timestampMoment ? timestampMoment.format("ddd") : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][timestamp.getDay()].slice(0,3)},
         "desc": "Short form of day of the week (e.g Wed)"
     },
     {
@@ -51,12 +51,12 @@ exports.variables = [
     },
     {
         "selector": "N",
-        "func": function(timestamp,timestampMoment = null, now = new Date()) {return ['January', 'February',  'March',  'April',  'May',  'June',  'July', 'August',  'September',  'October',  'November',  'December'][timestamp.getMonth()]},
+        "func": function(timestamp,timestampMoment = null, now = new Date()) {return timestampMoment ? timestampMoment.format("MMMM") : ['January', 'February',  'March',  'April',  'May',  'June',  'July', 'August',  'September',  'October',  'November',  'December'][timestamp.getMonth()]},
         "desc": "Month (word form) (e.g September)"
     },
     {
         "selector": "n",
-        "func": function(timestamp,timestampMoment = null, now = new Date()) {return ['January', 'February',  'March',  'April',  'May',  'June',  'July', 'August',  'September',  'October',  'November',  'December'][timestamp.getMonth()].slice(0,3)},
+        "func": function(timestamp,timestampMoment = null, now = new Date()) {return timestampMoment ? timestampMoment.format("MMM") : ['January', 'February',  'March',  'April',  'May',  'June',  'July', 'August',  'September',  'October',  'November',  'December'][timestamp.getMonth()].slice(0,3)},
         "desc": "Month (short word form) (e.g Sep)"
     },
     {
