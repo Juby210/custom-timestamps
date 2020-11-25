@@ -1,7 +1,7 @@
 {
   "name": "Custom Timestamps",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Replaces Discord's Timestamps with your own, bigger or smaller.",
   "author": "Taikutsunan#6781",
-  "license": "LGPLv2.1"
+  "license": "MIT"
 }
