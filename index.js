@@ -57,7 +57,7 @@ module.exports = class CustomTimestamps extends Plugin {
     });
     this.initInject();
   }
-  
+
   async initInject() {
     moment = await getModule(["parseZone"])
     ts.moment = moment
@@ -76,7 +76,7 @@ module.exports = class CustomTimestamps extends Plugin {
             const r = children(e);
             r.props["aria-label"] = timestampParsed;
             r.props.children = timestampParsed;
-            r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
+            //r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
             return r;
           }
           return res;
@@ -119,15 +119,16 @@ module.exports = class CustomTimestamps extends Plugin {
       if (!bubble) {
         if (this.settings.get("dynamicTimestamps", false)) {
           var foundtimestamp = false;
+          var timestampParsed;
           dynamicdates.forEach(element => {
             if (!foundtimestamp) {
-              if (element.func(args[0].timestamp, moment)) {
-                var timestampParsed = ts.parseTimestamp(timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+              if (element.func(timestamp, moment)) {
+                timestampParsed = ts.parseTimestamp(timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
                 foundtimestamp = true
               }
             }
           });
-          var timestampParsed = foundtimestamp ? timestampParsed : "Something's wrong, I can feel it"
+          timestampParsed = foundtimestamp ? timestampParsed : "Something's wrong, I can feel it"
         } else {
           var timestampParsed = ts.parseTimestamp(timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
         }

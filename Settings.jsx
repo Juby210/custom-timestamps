@@ -37,7 +37,7 @@ module.exports = class Settings extends React.PureComponent {
         >
           Timestamp Bubble Schematic
         </TextInput>
-        <TextInput
+        {/* <TextInput
           note="Color of the timestamp. Any CSS color is valid."
           defaultValue={getSetting("timestampColor", "var(--text-muted)")}
           onChange={(val) =>
@@ -45,7 +45,7 @@ module.exports = class Settings extends React.PureComponent {
           }
         >
           Timestamp String
-        </TextInput>
+        </TextInput> */}
         <SwitchItem
           note="Change the timestamp schematic depending on how long ago the timestamp was."
           value={getSetting("dynamicTimestamps", false)}
