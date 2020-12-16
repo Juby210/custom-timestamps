@@ -14,35 +14,35 @@ var ts = new tsmod.Timestamper();
 const dynamicdates = [
   {
     name: "Today",
-    func: function(timestamp, moment) {return moment().seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().startOf("day") < timestamp}
   },
   {
     name: "Yesterday",
-    func: function(timestamp, moment) {return moment().subtract(1, "day").seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().subtract(1, "day").startOf("day") < timestamp}
   },
   {
     name: "This Week",
-    func: function(timestamp, moment) {return moment().day(0).seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().startOf("week") < timestamp}
   },
   {
     name: "Last Week",
-    func: function(timestamp, moment) {return moment().subtract(1, "week").day(0).seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().subtract(1,"week").startOf("week") < timestamp}
   },
   {
     name: "This Month",
-    func: function(timestamp, moment) {return moment().date(1).seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().startOf("month") < timestamp}
   },
   {
     name: "Last Month",
-    func: function(timestamp, moment) {return moment().subtract(1, "month").date(1).seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().subtract(1, "month").startOf("month") < timestamp}
   },
   {
     name: "This Year",
-    func: function(timestamp, moment) {return moment().month(0).date(1).seconds(0).minutes(0).hours(0) < timestamp}
+    func: function(timestamp, moment) {return moment().startOf("year") < timestamp}
   },
   {
     name: "Ancient",
-    func: function(timestamp, moment) {return moment().month(0).date(1).seconds(0).minutes(0).hours(0) > timestamp}
+    func: function(timestamp, moment) {return moment().startOf("year") > timestamp}
   }
 ]
 
@@ -115,6 +115,7 @@ module.exports = class CustomTimestamps extends Plugin {
 
   parseTimestamp(timestamp, bubble=false) {
     try {
+      if (typeof timestamp != "object") throw new Error("Timestamp was not provided.");
       if (!timestamp["add"]) timestamp = moment(timestamp)
       if (!bubble) {
         if (this.settings.get("dynamicTimestamps", false)) {
