@@ -57,6 +57,7 @@ module.exports = class CustomTimestamps extends Plugin {
     });
     this.initInject();
   }
+  
   async initInject() {
     moment = await getModule(["parseZone"])
     ts.moment = moment
@@ -111,6 +112,7 @@ module.exports = class CustomTimestamps extends Plugin {
 //       return res
 //     })
   }
+
   parseTimestamp(timestamp, bubble=false) {
     try {
       if (!timestamp["add"]) timestamp = moment(timestamp)
@@ -138,6 +140,7 @@ module.exports = class CustomTimestamps extends Plugin {
       return "[timestamp parsing error]"
     }
   }
+
   pluginWillUnload() {
     powercord.api.settings.unregisterSettings("custom-timestamps");
     uninject("message-timestamper");
