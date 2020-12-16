@@ -58,7 +58,7 @@ module.exports = class CustomTimestamps extends Plugin {
     this.initInject();
   }
   async initInject() {
-    moment = await getModule(["parseZone"])
+    var moment = await getModule(["parseZone"])
     ts.moment = moment
     const timestampModule = await getModule(["MessageTimestamp"]);
     inject(
@@ -68,21 +68,8 @@ module.exports = class CustomTimestamps extends Plugin {
       (args, res) => {
         var timestampParsed;
         try {
-          res.props.children.props.text = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
-          if (this.settings.get("dynamicTimestamps", false)) {
-            var foundtimestamp = false;
-            dynamicdates.forEach(element => {
-              if (!foundtimestamp) {
-                if (element.func(args[0].timestamp, moment)) {
-                  timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
-                  foundtimestamp = true
-                }
-              }
-            });
-            timestampParsed = timestampParsed ? timestampParsed : "Something's wrong, I can feel it"
-          } else {
-            timestampParsed = ts.parseTimestamp(args[0].timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
-          }
+          var timestampParsed = this.parseTimestamp(args[0].timestamp)
+          res.props.children.props.text = this.parseTimestamp(args[0].timestamp, true);
           const { children } = res.props.children.props;
           res.props.children.props.children = e => {
             const r = children(e);
@@ -123,6 +110,27 @@ module.exports = class CustomTimestamps extends Plugin {
 //       }
 //       return res
 //     })
+  }
+  parseTimestamp(timestamp, bubble=false) {
+    if (!bubble) {
+      if (this.settings.get("dynamicTimestamps", false)) {
+        var foundtimestamp = false;
+        dynamicdates.forEach(element => {
+          if (!foundtimestamp) {
+            if (element.func(args[0].timestamp, moment)) {
+              var timestampParsed = ts.parseTimestamp(timestamp, this.settings.get("timestampDynamic" + element.name.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+              foundtimestamp = true
+            }
+          }
+        });
+        var timestampParsed = foundtimestamp ? timestampParsed : "Something's wrong, I can feel it"
+      } else {
+        var timestampParsed = ts.parseTimestamp(timestamp, this.settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+      }
+    } else {
+      var timestampParsed = ts.parseTimestamp(timestamp, this.settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
+    }
+    return timestampParsed
   }
   pluginWillUnload() {
     powercord.api.settings.unregisterSettings("custom-timestamps");
