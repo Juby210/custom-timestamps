@@ -1,4 +1,7 @@
-/* Copyright (C) 2020 TaiAurori (Gabriel Sylvain) - All Rights Reserved
+/* 
+ * Taistamps, a somewhat janky timestamp formatter library.
+ * 
+ * Copyright (C) 2020 TaiAurori (Gabriel Sylvain) - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the MIT license.
  * Basically, you can change and redistribute this code
