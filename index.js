@@ -8,7 +8,7 @@ const { Plugin } = require("powercord/entities");
 const { findInReactTree } = require("powercord/util");
 const { inject, uninject } = require("powercord/injector");
 const { getModule, getModuleByDisplayName } = require("powercord/webpack");
-const tsmod = require("./modules/timestamp.js");
+const tsmod = require("./modules/taistamps.js");
 var moment;
 var ts = new tsmod.Timestamper();
 const dynamicdates = [
