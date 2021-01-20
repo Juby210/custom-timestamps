@@ -1,5 +1,8 @@
-const { React, getModuleByDisplayName } = require("powercord/webpack");
-const { Category, TextInput, SwitchItem } = require("powercord/components/settings");
+const { req, settingsclass } = require("./modules/moldit.js");
+var settings;
+
+const { React, getModuleByDisplayName } = req("webpack");
+const { Category, TextInput, SwitchItem } = req("components/settings");
 const FormItem = getModuleByDisplayName("FormItem", false);
 const FormText = getModuleByDisplayName("FormText", false);
 
@@ -12,56 +15,55 @@ module.exports = class Settings extends React.PureComponent {
     super(props)
 
     this.state = {}
+    settings = new settingsclass(this, "custom-timestamps");
   }
 
   render() {
-    const { getSetting, toggleSetting, updateSetting } = this.props;
-
     return (
       <div>
         <TextInput
           note="Schematic that all message timestamps will follow. (see variables below)"
-          defaultValue={getSetting("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM")}
+          defaultValue={settings.getSetting("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM")}
           onChange={(val) =>
-            updateSetting("timestampSchematic", val)
+            settings.updateSetting("timestampSchematic", val)
           }
         >
           Timestamp Schematic
         </TextInput>
         <TextInput
           note="Schematic that message timestamp bubbles (when you hover over a timestamp) will follow."
-          defaultValue={getSetting("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0M %AM")}
+          defaultValue={settings.getSetting("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0M %AM")}
           onChange={(val) =>
-            updateSetting("timestampBubbleSchematic", val)
+            settings.updateSetting("timestampBubbleSchematic", val)
           }
         >
           Timestamp Bubble Schematic
         </TextInput>
         {/* <TextInput
           note="Color of the timestamp. Any CSS color is valid."
-          defaultValue={getSetting("timestampColor", "var(--text-muted)")}
+          defaultValue={settings.getSetting("timestampColor", "var(--text-muted)")}
           onChange={(val) =>
-            updateSetting("timestampColor", val)
+            settings.updateSetting("timestampColor", val)
           }
         >
           Timestamp String
         </TextInput> */}
         <SwitchItem
           note="Change the timestamp schematic depending on how long ago the timestamp was."
-          value={getSetting("dynamicTimestamps", false)}
+          value={settings.getSetting("dynamicTimestamps", false)}
           onChange={p=>{
-            toggleSetting('dynamicTimestamps', false)
+            settings.toggleSetting('dynamicTimestamps', false)
           }}
         >Dynamic Timestamps</SwitchItem> {/*disabled={!getSetting("dynamicTimestamps", false)}*/}
         <Category name="Dynamic Timestamps" opened={this.state.opened_dynamic} onChange={() => this.setState({ opened_dynamic: !this.state.opened_dynamic })}>
           {
           dynamicdates.map(element => {
             return <TextInput
-              defaultValue={getSetting("timestampDynamic" + element.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM")}
+              defaultValue={settings.getSetting("timestampDynamic" + element.split(" ").join(""), "%Y-%0M-%0D %0h:%0m:%0s %AM")}
               onChange={(val) =>
-                updateSetting("timestampDynamic" + element.split(" ").join(""), val)
+                settings.updateSetting("timestampDynamic" + element.split(" ").join(""), val)
               }
-              disabled={!getSetting("dynamicTimestamps", false)}
+              disabled={!settings.getSetting("dynamicTimestamps", false)}
             >
               {element}
             </TextInput>
