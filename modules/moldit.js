@@ -41,7 +41,6 @@ module.exports.settingsclass = class MolditSettings {
             this.updateSetting = window.vizality ? vzflux.updateSetting : _this.props.updateSetting
             this.toggleSetting = window.vizality ? vzflux.toggleSetting : _this.props.toggleSetting
         } else {
-            console.log(id)
             this.obj = _this
             this.get = _this.settings.get
             this.unregister = client == "powercord" ? powercord.api.settings.unregisterSettings.bind(powercord.api.settings) : () => {}
