@@ -8,7 +8,7 @@
 var client;
 if (window.vizality) {client = "vizality"} else {client = "powercord"}
 
-console.log("[moldit] I am on "+ client + ".")
+console.log("[moldit] I am on "+ client[0].toUpperCase() + client.slice(1) + ".")
 module.exports.req = function(mod) {
     switch(mod) {
         case "injector":
