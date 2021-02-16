@@ -28,7 +28,7 @@ module.exports.req = function(mod) {
     }
 }
 
-module.exports.MSettings = class MolditSettings {
+module.exports.MoldSettings = class MolditSettings {
     constructor(_this, id=null) {
         this.obj = _this
         if (typeof(_this.addonId) == "string") {
