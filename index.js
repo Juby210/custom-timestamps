@@ -5,7 +5,7 @@
  * but this copyright notice must remain unmodified.
  */
 
-const { req, mold, settingsclass } = require("./modules/moldit.js");
+const { MSettings, req } = require("./modules/moldit.js");
 var settings;
 
 const { Plugin } = req("entities");
@@ -54,7 +54,7 @@ const Settings = require("./Settings");
 
 module.exports = class CustomTimestamps extends Plugin {
   startPlugin() {
-    settings = new settingsclass(this);
+    settings = new MSettings(this);
     settings.register({
       id: "custom-timestamps",
       label: "Custom Timestamps",
