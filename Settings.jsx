@@ -1,4 +1,4 @@
-const { req, settingsclass } = require("./modules/moldit.js");
+const { req, MoldSettings } = require("./modules/moldit.js");
 var settings;
 
 const { React, getModuleByDisplayName } = req("webpack");
@@ -15,7 +15,7 @@ module.exports = class Settings extends React.PureComponent {
     super(props)
 
     this.state = {}
-    settings = new settingsclass(this, "custom-timestamps");
+    settings = new MoldSettings(this, "custom-timestamps");
   }
 
   render() {
