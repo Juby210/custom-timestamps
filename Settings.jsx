@@ -32,7 +32,7 @@ module.exports = class Settings extends React.PureComponent {
         </TextInput>
         <TextInput
           note="Schematic that message timestamp bubbles (when you hover over a timestamp) will follow."
-          defaultValue={settings.getSetting("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0M %AM")}
+          defaultValue={settings.getSetting("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM")}
           onChange={(val) =>
             settings.updateSetting("timestampBubbleSchematic", val)
           }
