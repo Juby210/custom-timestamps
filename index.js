@@ -6,15 +6,15 @@
  */
 
 const { MoldSettings, req } = require("./modules/moldit.js");
-var settings;
+let settings;
 
 const { Plugin } = req("entities");
 const { findInReactTree } = req("util");
 const { inject, uninject } = req("injector");
 const { getModule, getModuleByDisplayName } = req("webpack");
 const tsmod = require("./modules/taistamps.js");
-var moment;
-var ts = new tsmod.Timestamper();
+let moment;
+let ts = new tsmod.Timestamper();
 const dynamicdates = [
   {
     name: "Today",
@@ -66,15 +66,14 @@ module.exports = class CustomTimestamps extends Plugin {
   async initInject() {
     moment = await getModule(["parseZone"])
     ts.moment = moment
-    const timestampModule = await getModule(["MessageTimestamp"]);
+    const timestampModule = await getModule(m => m.default?.displayName === "MessageTimestamp");
     inject(
       "message-timestamper",
       timestampModule,
-      "MessageTimestamp",
+      "default",
       (args, res) => {
-        var timestampParsed;
         try {
-          var timestampParsed = this.parseTimestamp(args[0].timestamp)
+          const timestampParsed = this.parseTimestamp(args[0].timestamp)
           res.props.children.props.text = this.parseTimestamp(args[0].timestamp, true);
           const { children } = res.props.children.props;
           res.props.children.props.children = e => {
@@ -91,22 +90,7 @@ module.exports = class CustomTimestamps extends Plugin {
         }
       }
     );
-    timestampModule.MessageTimestamp.displayName = "MessageTimestamp";
-    inject(
-      "message-timestamper2",
-      timestampModule,
-      "default",
-      (_, res) => {
-        try {
-          const timestamp = findInReactTree(res, e => e && e.type && e.type.displayName == "MessageTimestamp");
-          if (timestamp) timestamp.type = timestampModule.MessageTimestamp;
-          return res;
-        } catch (err) {
-          this.error("yay, something broke.\n", err)
-          return res
-        }
-      }
-    );
+    timestampModule.default.displayName = "MessageTimestamp";
       //TODO: implement bubbles and message timestamps on welcome to server messages and grouped messages
 //     inject("temp", Message, "default", (args, res) => {
 //       if (res.props.children[0].props.children[1].props.compact) {
@@ -122,10 +106,10 @@ module.exports = class CustomTimestamps extends Plugin {
     try {
       if (typeof timestamp != "object") throw new Error("Timestamp was not provided.");
       if (!timestamp["add"]) timestamp = moment(timestamp)
+      let timestampParsed
       if (!bubble) {
         if (settings.get("dynamicTimestamps", false)) {
           var foundtimestamp = false;
-          var timestampParsed;
           dynamicdates.forEach(element => {
             if (!foundtimestamp) {
               if (element.func(timestamp, moment)) {
@@ -136,10 +120,10 @@ module.exports = class CustomTimestamps extends Plugin {
           });
           timestampParsed = foundtimestamp ? timestampParsed : "Something's wrong, I can feel it"
         } else {
-          var timestampParsed = ts.parseTimestamp(timestamp, settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
+          timestampParsed = ts.parseTimestamp(timestamp, settings.get("timestampSchematic", "%Y-%0M-%0D %0h:%0m:%0s %AM"));
         }
       } else {
-        var timestampParsed = ts.parseTimestamp(timestamp, settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
+        timestampParsed = ts.parseTimestamp(timestamp, settings.get("timestampBubbleSchematic", "%W, %N %D, %Y %h:%0m %AM"));
       }
       return timestampParsed
     } catch(err) {
